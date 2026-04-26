@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-flwlt5@dtl8s4ega)sx7t%*xz8#v)rm0fbt_j-*3sk2*lk7^dv'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-flwlt5@dtl8s4ega)sx7t%*xz8#v)rm0fbt_j-*3sk2*lk7^dv')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,11 +89,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'travelio',
-        'USER': 'travelio_user',
-        'PASSWORD': 'travelio_pass',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRES_DB', 'travelio'),
+        'USER': os.getenv('POSTGRES_USER', 'travelio_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'travelio_pass'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 

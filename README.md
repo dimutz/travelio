@@ -22,15 +22,13 @@ Travelio is a full-stack property booking platform built with a Django REST API 
    - `source venv/bin/activate`
 3. Install dependencies:
    - `pip install django djangorestframework djangorestframework-simplejwt psycopg2-binary django-cors-headers`
-4. Create PostgreSQL database and user (matching current settings):
-   - Database: `travelio`
-   - User: `travelio_user`
-   - Password: `travelio_pass`
-   - Host: `localhost`
-   - Port: `5432`
-5. Run migrations:
+4. Create a local environment file from the template at project root:
+   - `cp .env.example .env`
+5. Fill in your local secret values in `.env` (especially `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD`).
+6. Ensure PostgreSQL runs with values from `.env` (manually or with Docker Compose).
+7. Run migrations:
    - `python manage.py migrate`
-6. Start backend server:
+8. Start backend server:
    - `python manage.py runserver`
 
 Backend runs at `http://127.0.0.1:8000`.
@@ -45,6 +43,12 @@ Backend runs at `http://127.0.0.1:8000`.
    - `npm start`
 
 Frontend runs at `http://localhost:3000`.
+
+## Docker (Database)
+
+You can run PostgreSQL with Docker Compose using environment values from root `.env`:
+
+- `docker compose up -d db`
 
 ## How to Use
 
