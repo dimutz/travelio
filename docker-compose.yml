@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15
+    container_name: travelio_db
+    restart: always
+    environment:
+      POSTGRES_DB: travelio
+      POSTGRES_USER: travelio_user
+      POSTGRES_PASSWORD: travelio_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
