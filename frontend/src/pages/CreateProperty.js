@@ -13,6 +13,7 @@ export default function CreateProperty() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [images, setImages] = useState([]);
 
   const create = async () => {
     if (!form.name || !form.city || !form.address || !form.country || !form.description || !form.property_type) {
@@ -24,8 +25,26 @@ export default function CreateProperty() {
     setError("");
     setSuccess("");
 
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("city", form.city);
+    formData.append("address", form.address);
+    formData.append("country", form.country);
+    formData.append("description", form.description);
+    formData.append("property_type", form.property_type);
+
+    // Adăugăm fiecare imagine selectată în formData
+    // Numele "uploaded_images" trebuie să fie același cu cel așteptat de colegul tău pe Backend
+    for (let i = 0; i < images.length; i++) {
+      formData.append("uploaded_images", images[i]);
+    }
+
     try {
-      await api.post("listings/properties/", form);
+      await api.post("listings/properties/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setSuccess("Property created successfully.");
       setForm({
         name: "",
@@ -35,6 +54,7 @@ export default function CreateProperty() {
         description: "",
         property_type: "hotel",
       });
+      setImages([]);
     } catch (err) {
       const details = err?.response?.data;
       if (typeof details === "string") {
@@ -93,6 +113,17 @@ export default function CreateProperty() {
           <option value="apartment">Apartment</option>
           <option value="guesthouse">Guesthouse</option>
         </select>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ display: "block", marginBottom: "5px", fontSize: "14px" }}>Add Images:</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => setImages(e.target.files)}
+            className="create-input"
+            style={{ padding: "5px" }}
+          />
+        </div>
         <textarea
           className="create-textarea"
           value={form.description}

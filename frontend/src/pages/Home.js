@@ -73,9 +73,14 @@ export default function Home() {
           <h1 style={styles.title}>Travelio</h1>
           <p style={styles.subtitle}>Search and discover your next stay</p>
         </div>
-        <button type="button" onClick={handleLogout} style={styles.logoutButton}>
-          Logout
-        </button>
+        <div style={styles.rightButtons}>
+          <Link to="/profile" style={styles.profileButton}>
+            My Profile
+          </Link>
+          <button type="button" onClick={handleLogout} style={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
       </div>
 
       <div style={styles.filters}>
@@ -107,12 +112,36 @@ export default function Home() {
       ) : (
         <div style={styles.list}>
           {filteredProperties.map((property) => (
-            <article key={property.id} style={styles.card}>
-              <h3 style={styles.cardTitle}>{property.name}</h3>
-              <p style={styles.cardMeta}>
-                {property.city || "Unknown city"}, {property.country || "Unknown country"}
-              </p>
-              <p style={styles.cardText}>{property.description || "No description available."}</p>
+            <article 
+              key={property.id} 
+              style={styles.card}
+              // ADAUGĂ ACEASTA LINIE:
+              onClick={() => navigate(`/property/${property.id}`)}
+            >
+              {/* IMAGINEA DE COPERTA SAU PATRATUL GRI */}
+              <div style={styles.imageContainer}>
+                {property.images && property.images.length > 0 ? (
+                  <img 
+                    src={property.images[0].image_url || property.images[0].image} 
+                    alt={property.name} 
+                    style={styles.cardImage} 
+                  />
+                ) : (
+                  <div style={styles.placeholderImage}>
+                    <span>Fără poză</span>
+                  </div>
+                )}
+              </div>
+
+              <div style={styles.cardContent}>
+                <h3 style={styles.cardTitle}>{property.name}</h3>
+                <p style={styles.cardMeta}>
+                  {property.city || "Unknown city"}, {property.country || "Unknown country"}
+                </p>
+                <p style={styles.cardText}>
+                  {property.description ? property.description.substring(0, 80) + "..." : "No description available."}
+                </p>
+              </div>
             </article>
           ))}
         </div>
@@ -188,11 +217,30 @@ const styles = {
     gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
     gap: "14px",
   },
+  rightButtons: {
+    display: "flex",
+    gap: "10px", // Spațiu între Profile și Logout
+    alignItems: "center"
+  },
+  profileButton: {
+    padding: "8px 14px",
+    background: "#2563eb",
+    color: "white",
+    textDecoration: "none",
+    borderRadius: "8px",
+    display: "inline-block",
+    fontSize: "14px",
+    fontWeight: "500"
+  },
   card: {
     background: "#ffffff",
     border: "1px solid #e5e7eb",
     borderRadius: "12px",
-    padding: "14px",
+    overflow: "hidden", // Important pentru ca imaginea sa respecte colturile rotunjite
+    display: "flex",
+    flexDirection: "column",
+    transition: "transform 0.2s",
+    cursor: "pointer",
   },
   cardTitle: {
     margin: "0 0 8px 0",
@@ -207,5 +255,28 @@ const styles = {
     margin: 0,
     color: "#4b5563",
     fontSize: "14px",
+  },
+  imageContainer: {
+    width: "100%",
+    height: "160px", // Inaltime fixa pentru poze
+    background: "#e5e7eb",
+  },
+  cardImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover", // Taie imaginea sa umple spatiul fara sa se deformeze
+  },
+  placeholderImage: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#d1d5db", // Griul cerut
+    color: "#6b7280",
+    fontSize: "14px",
+  },
+  cardContent: {
+    padding: "14px",
   },
 };
