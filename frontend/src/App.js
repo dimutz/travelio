@@ -9,6 +9,8 @@ import Properties from "./pages/Properties";
 import CreateProperty from "./pages/CreateProperty";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRoute from "./components/AuthRoute";
+import Profile from "./pages/Profile"
+import PropertyDetails from "./pages/PropertyDetails";
 
 function App() {
   return (
@@ -64,6 +66,22 @@ function App() {
               <CreateProperty />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/property/:id" 
+          element={
+            <ProtectedRoute>
+              <PropertyDetails />
+            </ProtectedRoute>
+          } 
         />
       </Routes>
     </BrowserRouter>
