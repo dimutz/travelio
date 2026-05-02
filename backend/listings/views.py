@@ -17,3 +17,8 @@ class PropertyListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied('Only owners can create properties.')
         serializer.save(owner=self.request.user)
 
+class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    # Oricine poate vedea detaliile, dar numai proprietarul poate edita/șterge
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]

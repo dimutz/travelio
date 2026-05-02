@@ -21,6 +21,7 @@ class Property(models.Model):
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     description = models.TextField()
+    capacity = models.PositiveIntegerField(default=1)
 
     property_type = models.CharField(
         max_length=20,
@@ -74,3 +75,6 @@ class Room(models.Model):
     def __str__(self):
         return f"{self.property.name} - {self.room_type}"
 
+class PropertyImage(models.Model):
+    property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='property_images/') # Verifică să fie ImageField
