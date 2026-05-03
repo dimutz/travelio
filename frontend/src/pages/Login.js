@@ -24,6 +24,7 @@ export default function Login() {
 
       localStorage.setItem("access", res.data.access);
       localStorage.setItem("refresh", res.data.refresh);
+      localStorage.setItem("username", username.trim());
 
       navigate("/home");
     } catch (err) {
