@@ -88,7 +88,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'travelio_db'),
+        'NAME': os.getenv('POSTGRES_DB', 'travelio'),
         'USER': os.getenv('POSTGRES_USER', 'travelio_user'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'travelio_pass'),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),

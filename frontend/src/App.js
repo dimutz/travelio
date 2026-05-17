@@ -11,6 +11,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRoute from "./components/AuthRoute";
 import Profile from "./pages/Profile"
 import PropertyDetails from "./pages/PropertyDetails";
+import OwnerPropertyRooms from "./pages/OwnerPropertyRooms";
+import OwnerPropertyReceptionist from "./pages/OwnerPropertyReceptionist";
 
 function App() {
   return (
@@ -82,6 +84,22 @@ function App() {
               <PropertyDetails />
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/owner/properties/:propertyId/rooms"
+          element={
+            <ProtectedRoute>
+              <OwnerPropertyRooms />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/owner/properties/:propertyId/receptionist"
+          element={
+            <ProtectedRoute>
+              <OwnerPropertyReceptionist />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </BrowserRouter>

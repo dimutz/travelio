@@ -58,9 +58,14 @@ const Profile = () => {
         if (cancelled) return;
         setProfile(meRes.data);
 
-        const bookingsRes = await api.get("bookings/my-bookings/");
-        if (cancelled) return;
-        setBookings(Array.isArray(bookingsRes.data) ? bookingsRes.data : []);
+        const role = meRes.data?.role;
+        if (role === "client") {
+          const bookingsRes = await api.get("bookings/my-bookings/");
+          if (cancelled) return;
+          setBookings(Array.isArray(bookingsRes.data) ? bookingsRes.data : []);
+        } else {
+          setBookings([]);
+        }
       } catch (e) {
         console.error("Profile load error:", e);
         if (!cancelled) {
@@ -77,6 +82,7 @@ const Profile = () => {
   }, []);
 
   const username = profile?.username || localStorage.getItem("username") || "User";
+  const showBookings = profile?.role === "client";
 
   const handleCancelBooking = async (bookingId) => {
     if (!window.confirm("Cancel this booking?")) return;
@@ -99,7 +105,9 @@ const Profile = () => {
         </Link>
         <div style={styles.userCircle}>{username[0]?.toUpperCase() || "?"}</div>
         <h1 style={styles.title}>Hello, {username}!</h1>
-        <p style={styles.subtitle}>Your account and bookings</p>
+        <p style={styles.subtitle}>
+          {showBookings ? "Your account and bookings" : "Your account"}
+        </p>
         {profile?.role && (
           <p style={styles.roleBadge}>
             Role: <strong>{profile.role}</strong>
@@ -107,7 +115,13 @@ const Profile = () => {
         )}
       </div>
 
-      <div style={styles.contentGrid}>
+      <div
+        style={{
+          ...styles.contentGrid,
+          ...(showBookings ? {} : styles.contentGridAccountOnly),
+        }}
+      >
+        {showBookings ? (
         <div style={styles.mainContent}>
           <h2 style={styles.sectionTitle}>My bookings</h2>
           {loading ? (
@@ -167,9 +181,13 @@ const Profile = () => {
             </div>
           )}
         </div>
+        ) : null}
 
-        <div style={styles.sidebar}>
+        <div style={showBookings ? styles.sidebar : styles.mainContent}>
           <h2 style={styles.sectionTitle}>Account</h2>
+          {loading && !showBookings ? (
+            <p>Loading…</p>
+          ) : (
           <div style={styles.infoBox}>
             <p style={styles.infoItem}>
               <strong>Username:</strong> {username}
@@ -185,6 +203,7 @@ const Profile = () => {
               </p>
             )}
           </div>
+          )}
         </div>
       </div>
     </div>
@@ -230,6 +249,11 @@ const styles = {
     gridTemplateColumns: "1fr 280px",
     gap: "28px",
     alignItems: "start",
+  },
+  contentGridAccountOnly: {
+    gridTemplateColumns: "1fr",
+    maxWidth: "480px",
+    margin: "0 auto",
   },
   mainContent: {
     background: "white",
