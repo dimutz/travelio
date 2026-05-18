@@ -1,0 +1,66 @@
+/* Containerul general pentru a nu fi "până în capăt" */
+.reception-wrapper {
+    max-width: 1000px;
+    /* Lățime limitată pentru a nu se întinde pe tot ecranul */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Scroll pentru secțiunile de Bookings și Rooms */
+.scroll-container {
+    max-height: 300px;
+    /* Înălțime fixă pentru a activa scroll-ul */
+    overflow-y: auto;
+    /* Slide sus-jos */
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+    margin-bottom: 20px;
+}
+
+/* Stil pentru scrollbar (să fie discretă) */
+.scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
+
+/* --- Butonul CONFIRM VERDE PASTEL --- */
+.btn-confirm-pastel {
+    padding: 10px 20px !important;
+    /* Mai mare */
+    font-size: 14px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background-color: #d1f4e0 !important;
+    /* Verde pastel */
+    color: #166534 !important;
+    /* Text verde închis */
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-confirm-pastel:hover {
+    background-color: #bef264 !important;
+    transform: scale(1.05);
+}
+
+/* Stil tabel pentru a nu forța textul la margini */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th {
+    position: sticky;
+    top: 0;
+    /* Capul de tabel rămâne fix la scroll */
+    background: #f9fafb;
+    z-index: 10;
+    padding: 12px;
+}

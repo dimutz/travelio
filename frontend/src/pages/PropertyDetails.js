@@ -34,8 +34,6 @@ export default function PropertyDetails() {
   const [endDate, setEndDate] = useState("");
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(true);
-
-  // Data de azi pentru a bloca zilele trecute în calendar
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -74,7 +72,7 @@ export default function PropertyDetails() {
 
         if (!cancelled) setProperty(propData);
       } catch (err) {
-        console.error("Eroare la încărcarea proprietății:", err);
+        console.error("Error loading property:", err);
         if (!cancelled) setProperty(null);
       } finally {
         if (!cancelled) setLoading(false);
@@ -86,7 +84,6 @@ export default function PropertyDetails() {
     };
   }, [id, navigate]);
 
-  // Calculăm automat numărul de zile consecutive
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
     const start = new Date(startDate);
@@ -96,37 +93,32 @@ export default function PropertyDetails() {
     return diffDays > 0 ? diffDays : 0;
   };
 
-  const handleBooking = async () => {
+  const handleNextStep = () => {
     const days = calculateDays();
     if (days <= 0) {
-      alert("Te rugăm să selectezi o perioadă validă (minim 1 noapte).");
+      alert("Please select a valid period (minimum 1 night).");
       return;
     }
 
-    try {
-      // Endpoint-ul are / la final pentru a evita problemele de redirect în Django
-      await api.post("bookings/create/", {
-        property: Number(id),
-        check_in: startDate,
-        check_out: endDate,
-        number_of_guests: guests,
-        number_of_days: days,
-      });
-      
-      alert("Rezervare efectuată cu succes!");
-      navigate("/profile");
-    } catch (err) {
-      console.error("Booking error:", err.response?.data ?? err.message);
-      alert(formatBookingError(err));
-    }
+    navigate("/checkout/client", {
+      state: {
+        propertyId: Number(id),
+        propertyName: property.name,
+        checkIn: startDate,
+        checkOut: endDate,
+        guests: guests,
+        days: days,
+        capacity: property.capacity
+      }
+    });
   };
 
-  if (loading) return <p style={{ padding: "40px" }}>Se încarcă...</p>;
-  if (!property) return <p style={{ padding: "40px" }}>Proprietatea nu a fost găsită.</p>;
+  if (loading) return <p style={{ padding: "40px" }}>Loading...</p>;
+  if (!property) return <p style={{ padding: "40px" }}>Property not found.</p>;
 
   return (
     <div style={styles.container}>
-      <button onClick={() => navigate(-1)} style={styles.backBtn}>← Înapoi</button>
+      <button onClick={() => navigate(-1)} style={styles.backBtn}>← Back</button>
       
       <div style={styles.content}>
         <div style={styles.imageGallery}>
@@ -140,22 +132,22 @@ export default function PropertyDetails() {
               />
             ))
           ) : (
-            <div style={styles.noImage}>Fără imagini disponibile</div>
+              <div style={styles.noImage}>No images available</div>
           )}
         </div>
 
         <div style={styles.detailsCard}>
           <h1>{property.name}</h1>
-          <p><strong>Proprietar:</strong> {property.owner_username || "Informație indisponibilă"}</p>
+          <p><strong>Proprietar:</strong> {property.owner_username || "Information unavailable"}</p>
           <p><strong>Adresă:</strong> {property.address}, {property.city}, {property.country}</p>
           <p><strong>Capacitate:</strong> {property.capacity || "1"} persoane</p>
           
           <p style={{ marginTop: "15px", lineHeight: "1.6" }}>{property.description}</p>
           
           <div style={styles.bookingBox}>
-            <h3>Rezervă acum</h3>
+            <h3>Book now</h3>
             
-            <label style={styles.label}>Data Check-in:</label>
+            <label style={styles.label}>Check-in date:</label>
             <input 
               type="date" 
               min={today} 
@@ -164,7 +156,7 @@ export default function PropertyDetails() {
               style={styles.input} 
             />
             
-            <label style={styles.label}>Data Check-out:</label>
+            <label style={styles.label}>Check-out date:</label>
             <input 
               type="date" 
               min={startDate || today} 
@@ -174,10 +166,10 @@ export default function PropertyDetails() {
             />
 
             {calculateDays() > 0 && (
-              <p style={styles.infoText}>Durata șederii: <strong>{calculateDays()} zile</strong></p>
+              <p style={styles.infoText}>Length of stay: <strong>{calculateDays()} zile</strong></p>
             )}
             
-            <label style={styles.label}>Număr persoane (Max: {property.capacity}):</label>
+            <label style={styles.label}>Number of guests: (Max: {property.capacity}):</label>
             <input 
               type="number" 
               min="1" 
@@ -188,14 +180,14 @@ export default function PropertyDetails() {
             />
             
             <button 
-              onClick={handleBooking} 
+              onClick={handleNextStep} 
               style={{
                 ...styles.bookBtn, 
                 opacity: (calculateDays() > 0 && guests <= property.capacity) ? 1 : 0.6
               }}
               disabled={calculateDays() <= 0 || guests > property.capacity}
             >
-              Confirmă Rezervarea
+              Confirm Booking
             </button>
           </div>
         </div>

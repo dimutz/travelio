@@ -1,0 +1,78 @@
+.owner-properties-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.owner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.owner-header h2 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 24px;
+}
+
+.btn-add-property {
+    background-color: #d1f4e0;
+    color: #166534;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add-property:hover {
+    background-color: #bef264;
+    transform: translateY(-2px);
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.owner-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.btn-action-small {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-create-room {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+}
+
+.btn-create-room:hover {
+    background-color: #2563eb;
+}
+
+.btn-assign {
+    background-color: white;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.btn-assign:hover {
+    background-color: #f3f4f6;
+}
