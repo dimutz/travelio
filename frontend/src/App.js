@@ -9,10 +9,13 @@ import Properties from "./pages/Properties";
 import CreateProperty from "./pages/CreateProperty";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRoute from "./components/AuthRoute";
-import Profile from "./pages/Profile"
+import Profile from "./pages/Profile";
 import PropertyDetails from "./pages/PropertyDetails";
 import OwnerPropertyRooms from "./pages/OwnerPropertyRooms";
 import OwnerPropertyReceptionist from "./pages/OwnerPropertyReceptionist";
+import BookingClientDetails from "./pages/BookingClientDetails";
+import BookingPayment from "./pages/BookingPayment";
+import BookingSuccess from "./pages/BookingSuccess";
 
 function App() {
   return (
@@ -77,13 +80,13 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route 
-          path="/property/:id" 
+        <Route
+          path="/property/:id"
           element={
             <ProtectedRoute>
               <PropertyDetails />
             </ProtectedRoute>
-          } 
+          }
         />
         <Route
           path="/owner/properties/:propertyId/rooms"
@@ -98,6 +101,32 @@ function App() {
           element={
             <ProtectedRoute>
               <OwnerPropertyReceptionist />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* --- RUTELE NOI (Protejate) --- */}
+        <Route
+          path="/checkout/client"
+          element={
+            <ProtectedRoute>
+              <BookingClientDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkout/payment"
+          element={
+            <ProtectedRoute>
+              <BookingPayment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/booking-success"
+          element={
+            <ProtectedRoute>
+              <BookingSuccess />
             </ProtectedRoute>
           }
         />

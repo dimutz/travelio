@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import OwnerDashboard from "../components/OwnerDashboard";
 import ReceptionistDashboard from "../components/ReceptionistDashboard";
+import './Home.css';
 
 export default function Home() {
   const [me, setMe] = useState(null);
@@ -110,203 +111,107 @@ export default function Home() {
         ? "Front desk for your assigned property"
         : "Search and discover your next stay";
 
+  const pastelColors = ['pastel-blue', 'pastel-purple', 'pastel-green', 'pastel-yellow', 'pastel-pink'];
+
   return (
-    <div style={styles.container}>
-      <div style={styles.topBar}>
-        <div style={styles.header}>
-          <h1 style={styles.title}>Travelio</h1>
-          <p style={styles.subtitle}>{subtitle}</p>
+    <div className="home-container">
+
+      {/* NAVBAR */}
+      <nav className="navbar">
+        <div className="logo-section">
+          <h1>Travelio</h1>
+          <p>{subtitle}</p>
         </div>
-        <div style={styles.rightButtons}>
-          <Link to="/profile" style={styles.profileButton}>
+        <div className="nav-buttons">
+          <Link to="/profile" className="btn-text">
             My Profile
           </Link>
-          <button type="button" onClick={handleLogout} style={styles.logoutButton}>
+          <button type="button" onClick={handleLogout} className="btn-danger">
             Logout
           </button>
         </div>
-      </div>
+      </nav>
 
+      {/* RENDER BAZAT PE ROL */}
       {meLoading ? (
-        <p style={styles.status}>Loading…</p>
+        <p className="status-message">Loading…</p>
       ) : me?.role === "owner" ? (
         <OwnerDashboard />
       ) : me?.role === "receptionist" ? (
         <ReceptionistDashboard profile={me} />
       ) : (
         <>
-          <div style={styles.filters}>
+          {/* BARA DE CĂUTARE SIMPLĂ */}
+          <div className="search-section">
             <input
+              type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, city, country..."
-              style={styles.input}
             />
-            <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="Filter by city" style={styles.input} />
             <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="Filter by city"
+            />
+            <input
+              type="text"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               placeholder="Filter by country"
-              style={styles.input}
             />
           </div>
 
-          {loading ? (
-            <p style={styles.status}>Loading properties...</p>
-          ) : filteredProperties.length === 0 ? (
-            <p style={styles.status}>No properties matched your search.</p>
-          ) : (
-            <div style={styles.list}>
-              {filteredProperties.map((property) => (
-                <article key={property.id} style={styles.card} onClick={() => navigate(`/property/${property.id}`)}>
-                  <div style={styles.imageContainer}>
-                    {property.images && property.images.length > 0 ? (
-                      <img
-                        src={property.images[0].image_url || property.images[0].image}
-                        alt={property.name}
-                        style={styles.cardImage}
-                      />
-                    ) : (
-                      <div style={styles.placeholderImage}>
-                        <span>Fără poză</span>
-                      </div>
-                    )}
-                  </div>
+          {/* LISTA DE PROPRIETĂȚI */}
+          <div className="properties-column">
+            <h2>Available Properties</h2>
 
-                  <div style={styles.cardContent}>
-                    <h3 style={styles.cardTitle}>{property.name}</h3>
-                    <p style={styles.cardMeta}>
-                      {property.city || "Unknown city"}, {property.country || "Unknown country"}
-                    </p>
-                    <p style={styles.cardText}>
-                      {property.description ? property.description.substring(0, 80) + "..." : "No description available."}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
+            {loading ? (
+              <p className="status-message">Loading properties...</p>
+            ) : filteredProperties.length === 0 ? (
+              <p className="status-message">No properties matched your search.</p>
+            ) : (
+              filteredProperties.map((property, index) => {
+                const colorClass = pastelColors[index % pastelColors.length];
+
+                return (
+                  <article
+                    key={property.id}
+                    className="property-card"
+                    onClick={() => navigate(`/property/${property.id}`)}
+                  >
+
+                    {/* Poza proprietății sau fundal pastelat dacă nu are poză */}
+                    <div className={`card-image ${colorClass}`}>
+                      {property.images && property.images.length > 0 && (
+                        <img
+                          src={property.images[0].image_url || property.images[0].image}
+                          alt={property.name}
+                        />
+                      )}
+                    </div>
+
+                    {/* Informațiile cardului */}
+                    <div className="card-info">
+                      <h3>{property.name}</h3>
+                      <p className="location">
+                        {property.city || "Unknown city"}, {property.country || "Unknown"}
+                      </p>
+                      <p className="description">
+                        {property.description ? property.description.substring(0, 80) + "..." : "No description available."}
+                      </p>
+                    </div>
+
+                    <button className="btn-book">View Property</button>
+
+                  </article>
+                );
+              })
+            )}
+          </div>
         </>
       )}
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: "100vh",
-    padding: "32px",
-    background: "#f6f7fb",
-    color: "#111827",
-  },
-  header: {
-    marginBottom: "16px",
-  },
-  topBar: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    marginBottom: "24px",
-  },
-  title: {
-    fontSize: "40px",
-    margin: "0 0 8px 0",
-  },
-  subtitle: {
-    fontSize: "16px",
-    color: "#4b5563",
-    margin: 0,
-  },
-  filters: {
-    display: "flex",
-    gap: "12px",
-    flexWrap: "wrap",
-    marginBottom: "16px",
-  },
-  input: {
-    padding: "10px 12px",
-    border: "1px solid #d1d5db",
-    borderRadius: "8px",
-    minWidth: "220px",
-    fontSize: "14px",
-  },
-  logoutButton: {
-    padding: "8px 14px",
-    background: "#b91c1c",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "14px",
-  },
-  status: {
-    color: "#4b5563",
-  },
-  list: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-    gap: "14px",
-  },
-  rightButtons: {
-    display: "flex",
-    gap: "10px",
-    alignItems: "center",
-  },
-  profileButton: {
-    padding: "8px 14px",
-    background: "#2563eb",
-    color: "white",
-    textDecoration: "none",
-    borderRadius: "8px",
-    display: "inline-block",
-    fontSize: "14px",
-    fontWeight: "500",
-  },
-  card: {
-    background: "#ffffff",
-    border: "1px solid #e5e7eb",
-    borderRadius: "12px",
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    transition: "transform 0.2s",
-    cursor: "pointer",
-  },
-  cardTitle: {
-    margin: "0 0 8px 0",
-    fontSize: "18px",
-  },
-  cardMeta: {
-    margin: "0 0 8px 0",
-    color: "#374151",
-    fontSize: "14px",
-  },
-  cardText: {
-    margin: 0,
-    color: "#4b5563",
-    fontSize: "14px",
-  },
-  imageContainer: {
-    width: "100%",
-    height: "160px",
-    background: "#e5e7eb",
-  },
-  cardImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
-  placeholderImage: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#d1d5db",
-    color: "#6b7280",
-    fontSize: "14px",
-  },
-  cardContent: {
-    padding: "14px",
-  },
-};
