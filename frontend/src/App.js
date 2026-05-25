@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRoute from "./components/AuthRoute";
 import Profile from "./pages/Profile";
 import PropertyDetails from "./pages/PropertyDetails";
+import PropertyInfoPage from "./pages/PropertyInfoPage";
 import OwnerPropertyRooms from "./pages/OwnerPropertyRooms";
 import OwnerPropertyReceptionist from "./pages/OwnerPropertyReceptionist";
 import BookingClientDetails from "./pages/BookingClientDetails";
@@ -87,6 +88,10 @@ function App() {
               <PropertyDetails />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/properties/:id/info"
+          element={<PropertyInfoPage />}
         />
         <Route
           path="/owner/properties/:propertyId/rooms"

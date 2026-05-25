@@ -25,9 +25,15 @@ class PropertyListCreateView(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Property.objects.select_related('owner').prefetch_related('images')
-    serializer_class = PropertySerializer
+    queryset = Property.objects.select_related('owner').prefetch_related('images', 'rooms')
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        # Owners see PropertyOwnerSerializer (with rooms)
+        if self.request.user.is_authenticated and self.request.user.role == 'owner':
+            return PropertyOwnerSerializer
+        # Everyone else sees PropertySerializer
+        return PropertySerializer
 
     def perform_update(self, serializer):
         if not self.request.user.is_authenticated:

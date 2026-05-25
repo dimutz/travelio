@@ -1,11 +1,14 @@
 .signin-page {
-    background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);
+    /*background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);*/
+    background: transparent;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     padding: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .signin-card {

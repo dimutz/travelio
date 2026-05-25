@@ -5,6 +5,7 @@ from .views import (
     BookingCheckInView,
     BookingCheckOutView,
     BookingConfirmView,
+	BookingRejectView,
     BookingCreateView,
     MyBookingListView,
     ReceptionBookingListView,
@@ -16,6 +17,7 @@ urlpatterns = [
     path("create/", BookingCreateView.as_view(), name="booking-create"),
     path("<int:pk>/cancel/", BookingCancelView.as_view(), name="booking-cancel"),
     path("<int:pk>/confirm/", BookingConfirmView.as_view(), name="booking-confirm"),
+	 path("<int:pk>/reject/", BookingRejectView.as_view(), name="booking-reject"),
     path("<int:pk>/check-in/", BookingCheckInView.as_view(), name="booking-check-in"),
     path("<int:pk>/check-out/", BookingCheckOutView.as_view(), name="booking-check-out"),
 ]

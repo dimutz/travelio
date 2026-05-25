@@ -1,9 +1,12 @@
 /* --- Setări Globale cu noul Gradient --- */
 .home-container {
-    background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);
+    /*background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);*/
+    background: transparent;
     min-height: 100vh;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     padding-bottom: 50px;
+    position: relative;
+    z-index: 1;
 }
 
 /* --- Navbar --- */

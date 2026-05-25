@@ -4,6 +4,7 @@ import api from "../api/axios";
 import OwnerDashboard from "../components/OwnerDashboard";
 import ReceptionistDashboard from "../components/ReceptionistDashboard";
 import './Home.css';
+import AnimatedBackground from "../components/AnimatedBackground";
 
 export default function Home() {
   const [me, setMe] = useState(null);
@@ -114,6 +115,8 @@ export default function Home() {
   const pastelColors = ['pastel-blue', 'pastel-purple', 'pastel-green', 'pastel-yellow', 'pastel-pink'];
 
   return (
+    <>
+          <AnimatedBackground />
     <div className="home-container">
 
       {/* NAVBAR */}
@@ -213,5 +216,6 @@ export default function Home() {
         </>
       )}
     </div>
+  </>
   );
 }

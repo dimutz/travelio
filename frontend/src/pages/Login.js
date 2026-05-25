@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api, { ADMIN_SITE_URL } from "../api/axios";
+import AnimatedBackground from "../components/AnimatedBackground";
 import './Login.css';
 
 export default function Login() {
@@ -35,34 +36,38 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">Login</h2>
-        <p className="auth-subtitle">Access your account to search and manage properties.</p>
+    <>
+      <AnimatedBackground />
 
-        <input className="auth-input" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-        <input
-          className="auth-input"
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <div className="auth-page" style={{ position: "relative", zIndex: 10 }}>
+        <div className="auth-card">
+          <h2 className="auth-title">Login</h2>
+          <p className="auth-subtitle">Access your account to search and manage properties.</p>
 
-        <button type="button" className="auth-button" onClick={login}>
-          Login
-        </button>
-        {error ? <p className="auth-error">{error}</p> : null}
+          <input className="auth-input" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+          <input
+            className="auth-input"
+            placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <p className="auth-footnote">
-          New to Travelio? <Link to="/register">Create account</Link>
-        </p>
-        <div className="auth-portal-links" role="navigation" aria-label="Other entry points">
-          <span className="auth-portal-label">Also:</span>
-          <a href={ADMIN_SITE_URL} target="_blank" rel="noopener noreferrer">
-            Django admin (staff)
-          </a>
+          <button type="button" className="auth-button" onClick={login}>
+            Login
+          </button>
+          {error ? <p className="auth-error">{error}</p> : null}
+
+          <p className="auth-footnote">
+            New to Travelio? <Link to="/register">Create account</Link>
+          </p>
+          <div className="auth-portal-links" role="navigation" aria-label="Other entry points">
+            <span className="auth-portal-label">Also:</span>
+            <a href={ADMIN_SITE_URL} target="_blank" rel="noopener noreferrer">
+              Django admin (staff)
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
