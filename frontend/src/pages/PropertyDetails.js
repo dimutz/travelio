@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 function formatBookingError(err) {
   if (!err.response) {
@@ -117,7 +118,10 @@ export default function PropertyDetails() {
   if (!property) return <p style={{ padding: "40px" }}>Property not found.</p>;
 
   return (
-    <div style={styles.container}>
+    <>
+      <AnimatedBackground />
+
+      <div style={{ ...styles.container, position: "relative", zIndex: 10 }}>
       <button onClick={() => navigate(-1)} style={styles.backBtn}>← Back</button>
       
       <div style={styles.content}>
@@ -190,15 +194,42 @@ export default function PropertyDetails() {
               Confirm Booking
             </button>
           </div>
+
+          {/* Rooms section - show if owner */}
+          {property.rooms && property.rooms.length > 0 && (
+            <div style={{ marginTop: "30px" }}>
+              <h3>Rooms</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "15px" }}>
+                {property.rooms.map((room) => (
+                  <div
+                    key={room.id}
+                    style={{
+                      padding: "15px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "8px",
+                      backgroundColor: "#f9fafb"
+                    }}
+                  >
+                    <p><strong>{room.room_type}</strong></p>
+                    <p>Capacity: {room.capacity} guests</p>
+                    <p>Status: <strong>{room.availability_status}</strong></p>
+                    {room.description && <p>{room.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
         </div>
       </div>
     </div>
+    </>
   );
 }
 
 const styles = {
   container: { padding: "40px", maxWidth: "1200px", margin: "0 auto" },
-  backBtn: { background: "none", border: "none", color: "#2563eb", cursor: "pointer", marginBottom: "20px", fontSize: "16px" },
+  backBtn: { background: "none", border: "none", color: "#1d4ed8", cursor: "pointer", marginBottom: "20px", fontSize: "16px" },
   content: { display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "40px" },
   mainImg: { width: "100%", borderRadius: "12px", marginBottom: "15px", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" },
   noImage: { height: "300px", background: "#f3f4f6", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af" },

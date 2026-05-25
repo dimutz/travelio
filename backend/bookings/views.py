@@ -87,7 +87,25 @@ class BookingConfirmView(APIView):
         booking.save(update_fields=["booking_status"])
         return Response(ReceptionBookingSerializer(booking).data)
 
+class BookingRejectView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
+    def post(self, request, pk):
+        booking = get_object_or_404(
+            Booking.objects.select_related("room__property"), pk=pk
+        )
+        _assert_receptionist_for_booking(request.user, booking)
+        if booking.booking_status != "asteptare":
+            return Response(
+                {"detail": "Only pending bookings can be rejected."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        booking.booking_status = "anulata"
+        booking.save(update_fields=["booking_status"])
+        
+        return Response(ReceptionBookingSerializer(booking).data)
+    
 class BookingCheckInView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

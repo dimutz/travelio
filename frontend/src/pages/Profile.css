@@ -1,9 +1,12 @@
 /* --- FUNDAL ȘI CONTAINER --- */
 .profile-page {
-    background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);
+    /*background: linear-gradient(135deg, #fdfbf7 0%, #f4eaff 50%, #e0f2fe 100%);*/
+    background: transparent;
     min-height: 100vh;
     padding: 40px 20px;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    position: relative;
+    z-index: 1;
 }
 
 .profile-wrapper {
@@ -20,7 +23,7 @@
 .profile-back-link {
     display: inline-block;
     margin-bottom: 20px;
-    color: #3b82f6;
+    color: #1d4ed8;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s;
@@ -29,7 +32,7 @@
 }
 
 .profile-back-link:hover {
-    color: #1d4ed8;
+    color: #062989;
 }
 
 .profile-user-circle {

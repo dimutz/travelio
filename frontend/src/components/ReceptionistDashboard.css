@@ -64,3 +64,24 @@
     z-index: 10;
     padding: 12px;
 }
+
+.btn-reject-pastel {
+    padding: 8px 16px;
+    background-color: #fecaca;
+    color: #991b1b;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.btn-reject-pastel:hover:not(:disabled) {
+    background-color: #fca5a5;
+}
+
+.btn-reject-pastel:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
-import "./Profile.css"; // --- IMPORTĂM NOUL CSS ---
+import AnimatedBackground from "../components/AnimatedBackground";
+import "./Profile.css";
 
 function bookingStatusLabel(status) {
   if (status === "confirmata") return "Confirmed";
@@ -98,6 +99,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+      <AnimatedBackground />
     <div className="profile-page">
       <div className="profile-wrapper">
 
@@ -169,7 +172,7 @@ const Profile = () => {
                         )}
                       </div>
 
-                      {/* Păstrăm funcția de culoare inline pentru statusurile dinamice */}
+                      {}
                       <div
                         className="profile-status-badge"
                         style={statusBadgeStyle(booking)}
@@ -211,6 +214,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

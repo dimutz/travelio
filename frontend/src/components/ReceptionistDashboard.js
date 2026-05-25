@@ -62,6 +62,18 @@ export default function ReceptionistDashboard({ profile }) {
     }
   };
 
+  const handleBookingReject = async (bid) => {
+    setBookingActionId(bid);
+    try {
+      await api.post(`bookings/${bid}/reject/`);
+      await loadReceptionDesk();
+    } catch (e) {
+      alert(e?.response?.data?.detail || "Could not reject booking.");
+    } finally {
+      setBookingActionId(null);
+    }
+  };
+
   const setRoomAvailability = async (roomId, status) => {
     setRoomSavingId(roomId);
     try {
@@ -115,13 +127,23 @@ export default function ReceptionistDashboard({ profile }) {
                     <td style={s.td}>{bookingStatusLabel(b.booking_status)}</td>
                     <td style={s.td}>
                       {b.booking_status === "asteptare" && (
-                        <button
-                          className="btn-confirm-pastel"
-                          disabled={bookingActionId !== null}
-                          onClick={() => handleBookingConfirm(b.id)}
-                        >
-                          Confirm
-                        </button>
+                        <>
+                          <button
+                            className="btn-confirm-pastel"
+                            disabled={bookingActionId !== null}
+                            onClick={() => handleBookingConfirm(b.id)}
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            className="btn-reject-pastel"
+                            disabled={bookingActionId !== null}
+                            onClick={() => handleBookingReject(b.id)}
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Reject
+                          </button>
+                        </>
                       )}
                     </td>
                   </tr>

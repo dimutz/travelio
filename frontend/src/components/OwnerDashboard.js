@@ -56,29 +56,34 @@ export default function OwnerDashboard() {
             return (
               <article key={prop.id} className="property-card">
 
-                {/* IMAGINEA PROPRIETĂȚII SAU FUNDAL PASTELAT */}
-                <div className={`card-image ${colorClass}`}>
-                  {prop.images && prop.images.length > 0 && (
-                    <img
-                      src={prop.images[0].image_url || prop.images[0].image}
-                      alt={prop.name}
-                    />
-                  )}
-                </div>
+                <Link
+                  to={`/properties/${prop.id}/info`}
+                  style={{ textDecoration: 'none', color: 'inherit', flex: 1, display: 'flex' }}
+                >
+                  {/* IMAGINEA PROPRIETĂȚII SAU FUNDAL PASTELAT */}
+                  <div className={`card-image ${colorClass}`}>
+                    {prop.images && prop.images.length > 0 && (
+                      <img
+                        src={prop.images[0].image_url || prop.images[0].image}
+                        alt={prop.name}
+                      />
+                    )}
+                  </div>
 
-                {/* INFORMAȚIILE PROPRIETĂȚII */}
-                <div className="card-info">
-                  <h3>{prop.name}</h3>
-                  <p className="location">
-                    {prop.city}, {prop.country} · Max guests: {prop.capacity || prop.max_guests || 'N/A'}
-                  </p>
-                  <p className="description" style={{ marginTop: '5px' }}>
-                    {prop.address || 'Fără adresă'}
-                  </p>
-                  <p className="description" style={{ fontSize: '12px', marginTop: '5px' }}>
-                    {(prop.rooms || []).length} room{(prop.rooms || []).length === 1 ? "" : "s"}
-                  </p>
-                </div>
+                  {/* INFORMAȚIILE PROPRIETĂȚII */}
+                  <div className="card-info">
+                    <h3>{prop.name}</h3>
+                    <p className="location">
+                      {prop.city}, {prop.country} · Max guests: {prop.capacity || prop.max_guests || 'N/A'}
+                    </p>
+                    <p className="description" style={{ marginTop: '5px' }}>
+                      {prop.address || 'Fără adresă'}
+                    </p>
+                    <p className="description" style={{ fontSize: '12px', marginTop: '5px' }}>
+                      {(prop.rooms || []).length} room{(prop.rooms || []).length === 1 ? "" : "s"}
+                    </p>
+                  </div>
+                </Link>
 
                 {}
                 <div className="owner-action-buttons">
