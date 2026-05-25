@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -18,6 +19,8 @@ export default function Register() {
   };
 
   return (
+    <>
+          <AnimatedBackground />
     <div className="auth-page">
       <div className="auth-card">
         <h2 className="auth-title">Create account</h2>
@@ -59,5 +62,6 @@ export default function Register() {
         </p>
       </div>
     </div>
+    </>
   );
 }
