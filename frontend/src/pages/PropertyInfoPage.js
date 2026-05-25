@@ -68,12 +68,6 @@ export default function PropertyInfoPage() {
                     {/* Header */}
                     <h1 style={styles.title}>{property.name}</h1>
 
-                    <div style={styles.ratingSection}>
-                        <span style={styles.rating}>
-                            ⭐ {property.rating_average > 0 ? property.rating_average.toFixed(1) : "No rating yet"}
-                        </span>
-                    </div>
-
                     {/* Basic Info */}
                     <div style={styles.infoSection}>
                         <h3 style={styles.sectionTitle}>Basic Information</h3>
